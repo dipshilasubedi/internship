@@ -38,4 +38,10 @@ public class BookServiceImpl implements BookService {
     BookResponse bookResponse= BookMapper.toResponse(bookEntity);
     return bookResponse;
 }
+@Override
+    public void deleteBook(Long id){
+    BookEntity bookEntity= bookRepository.findById(id).
+            orElseThrow(()-> new ResourceNotFoundException("Not Found"));
+    bookRepository.delete(bookEntity);
+}
 }
