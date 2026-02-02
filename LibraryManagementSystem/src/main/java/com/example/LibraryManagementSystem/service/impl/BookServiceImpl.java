@@ -33,7 +33,11 @@ public class BookServiceImpl implements BookService {
     public BookResponse updateBook( BookRequest book, Long id){
     BookEntity bookEntity= bookRepository.findById(id).
             orElseThrow(()-> new ResourceNotFoundException("Not Found"));
-    bookEntity=BookMapper.toEntity(book);
+    bookEntity.setName(book.getName());
+    bookEntity.setAuthor(book.getAuthor());
+    bookEntity.setPrice(book.getPrice());
+    bookEntity.setGenere(book.getGenere());
+    bookEntity.setDescription(book.getDescription());
     bookRepository.save(bookEntity);
     BookResponse bookResponse= BookMapper.toResponse(bookEntity);
     return bookResponse;
