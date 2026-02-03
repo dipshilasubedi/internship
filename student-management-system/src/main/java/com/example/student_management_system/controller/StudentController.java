@@ -19,6 +19,7 @@ public class StudentController {
 
     @PostMapping("/student")
     public void createStudent(@RequestBody StudentRequest student) {
+
         studentService.createStudent(student);
     }
 
@@ -32,13 +33,13 @@ public class StudentController {
         return studentService.getStudentById(id);
     }
 
-    @PutMapping("/student/{id}")
-    public StudentResponse (@PathVariable Long id, @RequestBody StudentRequest student) {
+  @PutMapping("/student/{id}")
+  public StudentResponse updateStudent  (@PathVariable Long id, @RequestBody StudentRequest student) {
         return studentService.updateStudent(id, student);
     }
 
-    @DeleteMapping("/student/{id}")
-    public void deleteStudent(@PathVariable Long id) {
-        studentService.deleteStudent(id);
+  @DeleteMapping("/student/{id}")
+   public void deleteStudent(@PathVariable Long id) {
+       studentService.deleteStudent(id);
     }
 }
