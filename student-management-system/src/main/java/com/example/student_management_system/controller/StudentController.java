@@ -2,6 +2,7 @@ package com.example.student_management_system.controller;
 
 import com.example.student_management_system.payload.request.StudentRequest;
 
+import com.example.student_management_system.payload.response.StudentResponse;
 import com.example.student_management_system.service.StudentService;
 
 import lombok.RequiredArgsConstructor;
@@ -16,16 +17,7 @@ public class StudentController {
 
     private final StudentService studentService;
 
-//    public StudentController(StudentService studentService) {
-//
-//        this.studentService = studentService;
-  //  }
-
     @PostMapping("/student")
-//    public ResponseEntity<?> createStudent(@RequestBody StudentRequest student) {
-//        return new ResponseEntity<>(studentService.createStudent(student), HttpStatus.OK);
-//    }
-
     public void createStudent(@RequestBody StudentRequest student) {
         studentService.createStudent(student);
     }
@@ -36,18 +28,17 @@ public class StudentController {
     }
 
     @GetMapping("/student/{id}")
-    public ResponseEntity<?> getStudentById(@PathVariable Long id) {
-        return new ResponseEntity<>(studentService.getStudentById(id), HttpStatus.OK);
+    public StudentResponse getStudentById(@PathVariable Long id) {
+        return studentService.getStudentById(id);
     }
 
     @PutMapping("/student/{id}")
-    public ResponseEntity<?> updateStudent(@PathVariable Long id, @RequestBody StudentRequest student) {
-        return new ResponseEntity<>(studentService.updateStudent(id, student), HttpStatus.OK);
+    public StudentResponse (@PathVariable Long id, @RequestBody StudentRequest student) {
+        return studentService.updateStudent(id, student);
     }
 
     @DeleteMapping("/student/{id}")
-    public ResponseEntity<?> deleteStudent(@PathVariable Long id) {
+    public void deleteStudent(@PathVariable Long id) {
         studentService.deleteStudent(id);
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

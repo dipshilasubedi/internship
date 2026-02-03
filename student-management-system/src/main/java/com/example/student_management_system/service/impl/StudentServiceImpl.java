@@ -1,6 +1,7 @@
 package com.example.student_management_system.service.impl;
 
 import com.example.student_management_system.entity.StudentEntity;
+import com.example.student_management_system.mapper.StudentMapper;
 import com.example.student_management_system.payload.request.StudentRequest;
 import com.example.student_management_system.payload.response.StudentResponse;
 import com.example.student_management_system.repository.StudentRepository;
@@ -21,18 +22,9 @@ public class StudentServiceImpl implements StudentService {
 
     private final StudentRepository studentRepository;
 
-//    public StudentServiceImpl(StudentRepository studentRepository) {
-//        this.studentRepository = studentRepository;
-//    }
-
     @Override
     public void createStudent(StudentRequest student) {
-        StudentEntity studentEntity = new StudentEntity();
-        studentEntity.setName(student.getName());
-        studentEntity.setAge(student.getAge());
-        studentEntity.setGender(student.getGender());
-        studentEntity.setEmail(student.getEmail());
-        studentEntity.setCourse(student.getCourse());
+        StudentEntity studentEntity = StudentMapper.toEntity(student);
         studentRepository.save(studentEntity);
     }
 
@@ -52,7 +44,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public StudentResponse updateStudent(Long id, StudentRequest student) {
         StudentEntity studentEntityOptional = studentRepository.findStudentById(id).
-        orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Student not found"));
+                orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Student not found"));
         StudentEntity studentEntity = new StudentEntity();
         studentEntity.setName(student.getName());
         studentEntity.setAge(student.getAge());
@@ -60,12 +52,14 @@ public class StudentServiceImpl implements StudentService {
         studentEntity.setEmail(student.getEmail());
         studentEntity.setCourse(student.getCourse());
         studentRepository.save(studentEntity);
-        return null;
+        StudentResponse studentResponse = StudentMapper.toResponse(studentEntity);
+        return studentResponse;
     }
+
     @Override
     public void deleteStudent(Long id) {
-     StudentEntity studentEntityOptional = studentRepository.findStudentById(id).
-             orElseThrow(()-> new RuntimeException( "Student not found"));
+        StudentEntity studentEntityOptional = studentRepository.findStudentById(id).
+                orElseThrow(() -> new RuntimeException("Student not found"));
         studentRepository.delete(studentEntityOptional);
     }
 }
